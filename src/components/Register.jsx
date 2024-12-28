@@ -36,6 +36,7 @@ function Register() {
   const [formData, setFormData] = useState(initialState);
   const [errors, setErrors] = useState(initialErrors);
   const [isValid, setIsValid] = useState(false);
+  const [id, setId] = useState(null);
 
   useEffect(() => {
     const errorsValues = Object.values(errors);
@@ -51,10 +52,6 @@ function Register() {
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
-
-    if (!isValid) {
-      return;
-    }
 
     if (name == "email") {
       if (validateEmail(value)) {
@@ -73,7 +70,7 @@ function Register() {
     }
 
     if (name == "ad") {
-      if (value.length > 3) {
+      if (value.length >= 3) {
         setErrors({ ...errors, [name]: false });
       } else {
         setErrors({ ...errors, [name]: true });
@@ -81,7 +78,7 @@ function Register() {
     }
 
     if (name == "soyad") {
-      if (value.length > 3) {
+      if (value.length >= 3) {
         setErrors({ ...errors, [name]: false });
       } else {
         setErrors({ ...errors, [name]: true });
@@ -107,71 +104,82 @@ function Register() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    if (!isValid) {
+      return;
+    }
+
     axios
       .post("https://reqres.in/api/users", formData)
-      .then(() => {})
+      .then((res) => {
+        setId(res.data.id);
+        setFormData(initialState);
+      })
       .catch((error) => console.log("GİTMEDİ HATA", error));
   };
 
   return (
-    <Card>
-      <CardHeader>Kayıt Olma</CardHeader>
-      <Form onSubmit={handleSubmit}>
-        <FormGroup>
-          <Label for="ad">Ad</Label>
-          <Input
-            id="ad"
-            name="ad"
-            placeholder="Adınızı Giriniz"
-            type="text"
-            onChange={handleChange}
-            value={formData.ad}
-            invalid={errors.ad}
-          />
-          {errors.ad && <FormFeedback>{errorMessages.ad}</FormFeedback>}
-        </FormGroup>
-        <FormGroup>
-          <Label for="soyad">Soyad</Label>
-          <Input
-            id="soyad"
-            name="soyad"
-            placeholder="Soyad Giriniz"
-            type="text"
-            onChange={handleChange}
-            value={formData.soyad}
-            invalid={errors.soyad}
-          />
-          <FormFeedback>{errorMessages.soyad}</FormFeedback>
-        </FormGroup>
-        <FormGroup>
-          <Label for="email">Email</Label>
-          <Input
-            id="email"
-            name="email"
-            placeholder="Email Giriniz"
-            type="email"
-            onChange={handleChange}
-            value={formData.email}
-            invalid={errors.email}
-          />
-          {errors.email && <FormFeedback>{errorMessages.email}</FormFeedback>}
-        </FormGroup>
-        <FormGroup>
-          <Label for="password">Password</Label>
-          <Input
-            id="password"
-            name="password"
-            placeholder="Şifre Giriniz"
-            type="password"
-            onChange={handleChange}
-            value={formData.password}
-            invalid={errors.password}
-          />
-          <FormFeedback>{errorMessages.password}</FormFeedback>
-        </FormGroup>
-        <Button>Kayıt Ol</Button>
-      </Form>
-    </Card>
+    <>
+      <Card>
+        <CardHeader>Kayıt Olma</CardHeader>
+        <Form onSubmit={handleSubmit}>
+          <FormGroup>
+            <Label for="ad">Ad</Label>
+            <Input
+              id="ad"
+              name="ad"
+              placeholder="Adınızı Giriniz"
+              type="text"
+              onChange={handleChange}
+              value={formData.ad}
+              invalid={errors.ad}
+            />
+            <FormFeedback>{errorMessages.ad}</FormFeedback>
+          </FormGroup>
+          <FormGroup>
+            <Label for="soyad">Soyad</Label>
+            <Input
+              id="soyad"
+              name="soyad"
+              placeholder="Soyad Giriniz"
+              type="text"
+              onChange={handleChange}
+              value={formData.soyad}
+              invalid={errors.soyad}
+            />
+            <FormFeedback>{errorMessages.soyad}</FormFeedback>
+          </FormGroup>
+          <FormGroup>
+            <Label for="email">Email</Label>
+            <Input
+              id="email"
+              name="email"
+              placeholder="Email Giriniz"
+              type="email"
+              onChange={handleChange}
+              value={formData.email}
+              invalid={errors.email}
+            />
+            <FormFeedback>{errorMessages.email}</FormFeedback>
+          </FormGroup>
+          <FormGroup>
+            <Label for="password">Password</Label>
+            <Input
+              id="password"
+              name="password"
+              placeholder="Şifre Giriniz"
+              type="password"
+              onChange={handleChange}
+              value={formData.password}
+              invalid={errors.password}
+            />
+            <FormFeedback>{errorMessages.password}</FormFeedback>
+          </FormGroup>
+          <Button disabled={!isValid}>Kayıt Ol</Button>
+        </Form>
+      </Card>
+      <h1>{id}</h1>
+    </>
   );
 }
 
