@@ -35,4 +35,18 @@ export default [
       ],
     },
   },
+  {
+    files: ['**/*.cy.{js,jsx,ts,tsx}'], // Cypress test dosyaları
+    plugins: {
+      cypress: require('eslint-plugin-cypress'), // Cypress eklentisi
+    },
+    env: {
+      'cypress/globals': true, // Cypress'e özel global değişkenler
+    },
+    rules: {
+      'no-unused-expressions': 'off', // Chai assert ifadeleri için
+      'no-undef': 'off', // Cypress komutlarını tanımlı kabul etmek için
+    },
+  },
 ]
+

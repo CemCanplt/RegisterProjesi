@@ -133,8 +133,9 @@ function Register() {
               onChange={handleChange}
               value={formData.ad}
               invalid={errors.ad}
+              data-cy="ad-input"
             />
-            <FormFeedback>{errorMessages.ad}</FormFeedback>
+            <FormFeedback data-cy="ad-err">{errorMessages.ad}</FormFeedback>
           </FormGroup>
           <FormGroup>
             <Label for="soyad">Soyad</Label>
@@ -146,6 +147,7 @@ function Register() {
               onChange={handleChange}
               value={formData.soyad}
               invalid={errors.soyad}
+              data-cy="soyad-input"
             />
             <FormFeedback>{errorMessages.soyad}</FormFeedback>
           </FormGroup>
@@ -159,6 +161,7 @@ function Register() {
               onChange={handleChange}
               value={formData.email}
               invalid={errors.email}
+              data-cy="email-input"
             />
             <FormFeedback>{errorMessages.email}</FormFeedback>
           </FormGroup>
@@ -172,6 +175,7 @@ function Register() {
               onChange={handleChange}
               value={formData.password}
               invalid={errors.password}
+              data-cy="password-input"
             />
             <FormFeedback>{errorMessages.password}</FormFeedback>
           </FormGroup>
