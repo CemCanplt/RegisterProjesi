@@ -29,6 +29,7 @@ function Register() {
     axios
       .post("", formData)
       .then(() => {
+
         
       })
       .catch((error) => console.log("GİTMEDİ HATA", error));
